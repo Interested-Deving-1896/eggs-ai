@@ -8,8 +8,8 @@ export const DISTRO_INSTALL_GUIDES: Record<string, string> = {
 ## Installing penguins-eggs on Debian (bookworm/trixie/sid)
 
 ### From the PPA (recommended)
-curl -fsSL https://pieroproietti.github.io/penguins-eggs-ppa/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/penguins-eggs.gpg
-echo "deb [signed-by=/etc/apt/trusted.gpg.d/penguins-eggs.gpg] https://pieroproietti.github.io/penguins-eggs-ppa ./" | sudo tee /etc/apt/sources.list.d/penguins-eggs.list
+curl -fsSL https://Interested-Deving-1896.github.io/penguins-eggs-ppa/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/penguins-eggs.gpg
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/penguins-eggs.gpg] https://Interested-Deving-1896.github.io/penguins-eggs-ppa ./" | sudo tee /etc/apt/sources.list.d/penguins-eggs.list
 sudo apt update
 sudo apt install eggs
 
