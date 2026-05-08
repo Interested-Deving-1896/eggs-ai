@@ -1,7 +1,7 @@
 name: Mirror to OpenOS-Project-Ecosystem-OOC
 
 # Sync chain:
-#   OSPF1896  ->(mirror.yaml)->  OpenOS-Project-OSP
+#   Interested-Deving-1896  ->(upstream mirror.yaml)->  OpenOS-Project-OSP
 #   OpenOS-Project-OSP  ->(this file)->  OpenOS-Project-Ecosystem-OOC
 
 on:
@@ -16,16 +16,14 @@ on:
 jobs:
   mirror:
     runs-on: ubuntu-latest
-    # Only run when executing in the OSP repo — no-op in upstream
+    # Only run when executing in the OSP repo — no-op if mirrored elsewhere
     if: github.repository == 'OpenOS-Project-OSP/eggs-ai'
     steps:
-      - name: Checkout full history (detached HEAD)
+      - name: Checkout full history
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
-          # Detached HEAD avoids "refusing to fetch into checked-out branch"
-          ref: ${{ github.sha }}
 
       - name: Fetch all branches and tags
         run: git fetch --all --tags --prune
@@ -37,8 +35,11 @@ jobs:
           git config --global credential.helper store
           printf 'https://x-access-token:%s@github.com\n' "$MIRROR_TOKEN" \
             > ~/.git-credentials
+
           git remote add mirror \
-            "https://github.com/Interested-Deving-1896/eggs-ai.git"
-          git push mirror 'refs/remotes/origin/*:refs/heads/*' --force
+            "https://github.com/OpenOS-Project-Ecosystem-OOC/eggs-ai.git"
+
+          git push mirror --all --force
           git push mirror --tags --force
+
           rm -f ~/.git-credentials
