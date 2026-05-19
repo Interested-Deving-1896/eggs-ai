@@ -4,31 +4,30 @@
 [![Built with Ona](https://ona.com/build-with-ona.svg)](https://app.ona.com/#https://github.com/Interested-Deving-1896/eggs-ai)
 
 <!-- AI:start:what-it-does -->
-This project provides an AI-powered agent for the Penguins-Eggs tool, a Linux system utility for creating and managing live ISO images. It assists users with diagnostics, guided ISO building, configuration generation, and querying a knowledge base. It is designed for developers and system administrators working with Linux live systems and remastering tasks.
+This project provides an AI-powered agent for the Penguins-Eggs tool, which is used by developers and system administrators to manage Linux live systems. It automates tasks such as diagnostics, guided ISO creation, configuration generation, and querying a knowledge base, streamlining workflows for system customization and maintenance.
 <!-- AI:end:what-it-does -->
 
 ## Architecture
 
 <!-- AI:start:architecture -->
-The project consists of several key components organized into a modular directory structure. The main entry point is `dist/index.js`, which serves as the runtime for the AI agent. The `bin/` directory contains executable scripts, including `eggs-ai` for CLI interactions and `eggs-ai-mcp` for the multi-channel processing server. The `src/` directory contains the TypeScript source code, organized into submodules such as `engine/` for core logic, `sdk/` for programmatic access, `providers/` for external integrations, and `bridge/` for communication with the Penguins-Eggs daemon. Protobuf definitions are stored in the `proto/` directory for inter-process communication. Build artifacts are output to the `dist/` directory. The project uses TypeScript for development, with build and test scripts defined in `package.json`.
+The project consists of several key components organized into distinct directories. The AI agent is implemented in TypeScript and uses a modular architecture. The main entry point is `dist/index.js`, with additional binaries for specific tasks located in the `bin` directory. The `src` directory contains the TypeScript source code, including the core logic for diagnostics, ISO building, configuration generation, and Q&A. The `proto` directory stores protocol definitions for inter-component communication. Build outputs are stored in the `dist` directory. The `engine` module handles core AI functionalities, while `bridge` facilitates communication with external systems. The `sdk` and `providers` modules offer abstractions for interacting with external APIs and services. Scripts for development, testing, and deployment are defined in `package.json`. Workflow files in `.github/workflows` automate CI/CD processes.
 
-```
+```plaintext
 .
-├── bin/                  # CLI entry points
-├── dist/                 # Compiled output
-├── proto/                # Protobuf definitions
-├── src/                  # TypeScript source code
-│   ├── bridge/           # Daemon communication
-│   ├── engine/           # Core logic
-│   ├── providers/        # External integrations
-│   └── sdk/              # Programmatic API
-├── test/                 # Unit and integration tests
-├── .github/              # GitHub workflows
-├── examples/             # Example configurations and usage
-├── Dockerfile            # Docker build configuration
-├── docker-compose.yaml   # Docker Compose setup
-├── package.json          # Project metadata and scripts
-└── tsconfig.json         # TypeScript configuration
+├── bin/                     # Executable scripts
+├── dist/                    # Compiled output
+│   ├── bridge/              # Communication layer
+│   ├── engine/              # Core AI logic
+│   ├── providers/           # External service integrations
+│   └── sdk/                 # SDK for API interactions
+├── proto/                   # Protocol definitions
+├── src/                     # TypeScript source code
+├── test/                    # Unit and integration tests
+├── .github/workflows/       # CI/CD workflows
+├── Dockerfile               # Docker build configuration
+├── README.md                # Project documentation
+├── package.json             # Project metadata and scripts
+└── tsconfig.json            # TypeScript configuration
 ```
 <!-- AI:end:architecture -->
 
@@ -89,7 +88,7 @@ This repository is a mirror. The upstream source is available at [eggs-ai](https
 ## Origins
 
 <!-- AI:start:origins -->
-_No dependency graph found. Run `generate-dep-graph.yml` to generate `dep-graph/origins.md`._
+_Original project — no upstream fork._
 <!-- AI:end:origins -->
 
 ## Resources
