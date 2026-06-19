@@ -2,7 +2,7 @@
 # Mirrors: sync-forks.yml, mirror-artifacts.yml, mirror-to-osp.yml,
 #          add-mirror-repo.yml, setup-osp-mirrors.yml, reconcile-org-refs.yml,
 #          rebase-lts.yml, sync-eggs-docs-to-book.yml,
-#          sync-pieroproietti-forks.yml, upstream-prs.yml, resolve-failures.yml
+#          sync-Interested-Deving-1896-forks.yml, upstream-prs.yml, resolve-failures.yml
 #
 # All jobs use GITLAB_TOKEN (CI variable) for GitLab API access.
 # Set GITLAB_TOKEN as a masked CI/CD variable in project settings.
@@ -17,8 +17,8 @@
 #
 # Schedule 2 — Daily sync (0 7 * * *)
 #   Variables: CADENCE=daily
-#   Jobs: sync-forks, sync-eggs-docs-to-book, sync-pieroproietti-forks,
-#         sync-pieroproietti-gl-forks, sync-kde-neon-mirrors, upstream-prs,
+#   Jobs: sync-forks, sync-eggs-docs-to-book, sync-Interested-Deving-1896-forks,
+#         sync-Interested-Deving-1896-gl-forks, sync-kde-neon-mirrors, upstream-prs,
 #         resolve-failures, sync-from-gitlab
 #
 # Schedule 3 — Weekly maintenance (0 3 * * 0)
@@ -121,8 +121,8 @@ sync-eggs-docs-to-book:
     - if: '$CI_PIPELINE_SOURCE == "schedule" && $CADENCE == "daily"'
     - when: manual
 
-# ── Sync pieroproietti forks (scheduled) ─────────────────────────────────────
-sync-pieroproietti-forks:
+# ── Sync Interested-Deving-1896 forks (scheduled) ─────────────────────────────────────
+sync-Interested-Deving-1896-forks:
   stage: sync
   image: alpine:3.19
   before_script:
@@ -131,9 +131,9 @@ sync-pieroproietti-forks:
   variables:
     GH_TOKEN: $WORKFLOW_SECRET
     GITHUB_OWNER: "Interested-Deving-1896"
-    UPSTREAM_USER: "pieroproietti"
+    UPSTREAM_USER: "Interested-Deving-1896"
   script:
-    - bash scripts/sync-pieroproietti-forks.sh
+    - bash scripts/sync-Interested-Deving-1896-forks.sh
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule" && $CADENCE == "daily"'
     - when: manual
@@ -216,19 +216,19 @@ sync-kde-neon-mirrors:
     - if: '$CI_PIPELINE_SOURCE == "schedule" && $CADENCE == "daily"'
     - when: manual
 
-# ── Sync pieroproietti GitLab forks (scheduled daily) ────────────────────────
+# ── Sync Interested-Deving-1896 GitLab forks (scheduled daily) ────────────────────────
 # Mirrors branches, tags, and releases from GitHub to the three GitLab forks:
 #   penguins-eggs, penguins-eggs-book, oa-tools
 # Only upstream branches (master/develop/main/devel) are force-updated.
 # Local-only branches (all-features, feat/*, lts, etc.) are never touched.
 # Requires CI variable: GITLAB_TOKEN (api + write_repository scope, masked).
-sync-pieroproietti-gl-forks:
+sync-Interested-Deving-1896-gl-forks:
   stage: sync
   image: alpine:3.19
   before_script:
     - apk add --no-cache git curl bash python3
   script:
-    - bash scripts/sync-pieroproietti-gl-forks.sh
+    - bash scripts/sync-Interested-Deving-1896-gl-forks.sh
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule" && $CADENCE == "daily"'
     - when: manual
