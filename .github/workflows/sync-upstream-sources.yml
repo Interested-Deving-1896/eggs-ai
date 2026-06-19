@@ -15,7 +15,7 @@ on:
   schedule:
     # Daily at 01:30 UTC — after sync-forks (06:00) would be redundant for
     # forks already covered there; this catches origins not in that set.
-    # Offset from sync-pieroproietti-forks (:05) and sync-forks (06:00).
+    # Offset from sync-Interested-Deving-1896-forks (:05) and sync-forks (06:00).
     - cron: '30 1 * * *'
   workflow_dispatch:
     inputs:
