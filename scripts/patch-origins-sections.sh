@@ -190,8 +190,8 @@ patch_repo "eggs-gui" "main" \
 '## Origins
 
 eggs-gui merges three upstream GUI projects:
-- [pieroproietti/pengui](https://github.com/pieroproietti/pengui) — original PySide6 GUI for penguins-eggs
-- [pieroproietti/eggsmaker](https://github.com/pieroproietti/eggsmaker) — customtkinter GUI by Jorge Luis Endres
+- [Interested-Deving-1896/pengui](https://github.com/Interested-Deving-1896/pengui) — original PySide6 GUI for penguins-eggs
+- [Interested-Deving-1896/eggsmaker](https://github.com/Interested-Deving-1896/eggsmaker) — customtkinter GUI by Jorge Luis Endres
 - [jlendres/eggsmaker](https://github.com/jlendres/eggsmaker) — enhanced fork with web UI
 - [charmbracelet/bubbletea](https://github.com/charmbracelet/bubbletea) — Go TUI framework (BubbleTea frontend)
 - [nodegui/nodegui](https://github.com/nodegui/nodegui) — Qt6/TypeScript native desktop framework'
@@ -254,7 +254,7 @@ patch_repo "oa-tools" "main" \
 '## Origins
 
 oa-tools is the next-generation evolution of:
-- [pieroproietti/penguins-eggs](https://github.com/pieroproietti/penguins-eggs) — the original Linux remastering tool this project supersedes'
+- [Interested-Deving-1896/penguins-eggs](https://github.com/Interested-Deving-1896/penguins-eggs) — the original Linux remastering tool this project supersedes'
 
 patch_repo "penguins-eggs-audit" "main" \
 '## Origins
@@ -282,7 +282,7 @@ patch_repo "penguins-eggs-book" "main" \
 '## Origins
 
 penguins-eggs-book documents:
-- [pieroproietti/penguins-eggs](https://github.com/pieroproietti/penguins-eggs) — the tool this book covers
+- [Interested-Deving-1896/penguins-eggs](https://github.com/Interested-Deving-1896/penguins-eggs) — the tool this book covers
 - [hosseinseilani/penguins-eggs-book](https://github.com/hosseinseilani/penguins-eggs-book) — original book authored by Hossein Seilany'
 
 patch_repo "penguins-incus-platform" "main" \
@@ -339,8 +339,8 @@ patch_repo "penguins-eggs" "master" \
 '## Origins
 
 penguins-eggs is the original Linux remastering tool by Piero Proietti:
-- [pieroproietti/penguins-eggs](https://github.com/pieroproietti/penguins-eggs) — upstream source (this repo tracks it)
-- [pieroproietti/oa-tools](https://github.com/pieroproietti/oa-tools) — next-generation successor (oa + coa architecture)'
+- [Interested-Deving-1896/penguins-eggs](https://github.com/Interested-Deving-1896/penguins-eggs) — upstream source (this repo tracks it)
+- [Interested-Deving-1896/oa-tools](https://github.com/Interested-Deving-1896/oa-tools) — next-generation successor (oa + coa architecture)'
 
 # ── KPort — original project, push dep-graph/origins.md ─────────────────────
 # invent.kde.org/neon/neon is a group URL, not a repo. The actual KDE Neon
