@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 #
-# Syncs all Interested-Deving-1896 forks whose upstream is pieroproietti/*.
+# Syncs all Interested-Deving-1896 forks whose upstream is Interested-Deving-1896/*.
 # Runs on a tight budget (50 min) to fit inside the hourly schedule.
 #
 # Required env vars:
 #   GH_TOKEN      – PAT with public_repo scope
 #   GITHUB_OWNER  – fork owner (Interested-Deving-1896)
-#   UPSTREAM_USER – upstream owner to filter on (pieroproietti)
+#   UPSTREAM_USER – upstream owner to filter on (Interested-Deving-1896)
 
 set -uo pipefail
 
 : "${GH_TOKEN:?GH_TOKEN is required}"
 : "${GITHUB_OWNER:?GITHUB_OWNER is required}"
-: "${UPSTREAM_USER:=pieroproietti}"
+: "${UPSTREAM_USER:=Interested-Deving-1896}"
 
 DRY_RUN="${DRY_RUN:-false}"
 REPO_FILTER="${REPO_FILTER:-}"
@@ -81,7 +81,7 @@ gh_api() {
 }
 
 # Fetch all forks of GITHUB_OWNER whose parent is UPSTREAM_USER/*.
-get_pieroproietti_forks() {
+get_Interested-Deving-1896_forks() {
   local page=1
   while true; do
     local result
@@ -172,7 +172,7 @@ START_TIME=$(date +%s)
 BUDGET_SECONDS=$(( 50 * 60 ))
 
 echo "Fetching forks of ${GITHUB_OWNER} whose upstream is ${UPSTREAM_USER}/..."
-mapfile -t fork_lines < <(get_pieroproietti_forks)
+mapfile -t fork_lines < <(get_Interested-Deving-1896_forks)
 echo "Found ${#fork_lines[@]} matching fork(s)."
 echo ""
 
@@ -230,7 +230,7 @@ done
 
 echo ""
 echo "========================================"
-echo " pieroproietti fork sync complete"
+echo " Interested-Deving-1896 fork sync complete"
 echo " Repos processed : ${current}/${total}"
 if [[ "$timed_out" == "true" ]]; then
   echo " Status          : partial (time budget reached)"
