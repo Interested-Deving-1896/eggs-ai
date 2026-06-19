@@ -2,7 +2,7 @@
 # reconcile-org-refs.sh
 #
 # For every repo that exists in BOTH OSP and Interested-Deving-1896:
-#   - In the Interested-Deving-1896 copy: replace pieroproietti → Interested-Deving-1896
+#   - In the Interested-Deving-1896 copy: replace Interested-Deving-1896 → Interested-Deving-1896
 #
 # OSP and OOC are NOT patched directly. The mirror chain (mirror-to-osp at :00,
 # mirror-osp-to-ooc at :15) propagates commits from Interested-Deving-1896 to
@@ -112,7 +112,7 @@ for line in lines:
         out.append(line)
         continue
     # Never touch polkit/D-Bus action IDs
-    if re.search(r'com\.github\.pieroproietti', line):
+    if re.search(r'com\.github\.Interested-Deving-1896', line):
         out.append(line)
         continue
     new_line = line.replace(src_str, dst_str)
@@ -320,7 +320,7 @@ for REPO in $OSP_REPOS; do
   # mirror-osp-to-ooc at :15) propagates these commits to OSP and OOC automatically.
   # Committing directly to OSP/OOC caused mirrors to diverge from the source of truth
   # and triggered the upstream-commits loop (mirror-side commits detected as "new").
-  search_and_patch "$UPSTREAM_OWNER" "$REPO" "pieroproietti" "pieroproietti" "$UPSTREAM_OWNER"
+  search_and_patch "$UPSTREAM_OWNER" "$REPO" "Interested-Deving-1896" "Interested-Deving-1896" "$UPSTREAM_OWNER"
 
   echo ""
 done
