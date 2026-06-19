@@ -39,12 +39,6 @@ concurrency:
   group: sync-from-gitlab
   cancel-in-progress: true
 
-# ── Rate limits ──────────────────────────────────────────────────────────────
-# GitLab REST API (GITLAB_SYNC_TOKEN): 2 000 req/min per token.
-#   gl_api_get() retries HTTP 429/403 with RateLimit-Reset sleep (up to 3×).
-# GitHub REST API (SYNC_TOKEN): 5 000 req/hr — used for repo existence checks.
-#   gh_api_check() retries HTTP 403/429 with X-RateLimit-Reset sleep.
-
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -60,7 +54,12 @@ jobs:
           REPO_FILTER: ${{ inputs.repo_filter || '' }}
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
           SUBGROUP_FILTER: ${{ inputs.subgroup_filter || '' }}
-        run: bash scripts/sync-from-gitlab.sh
+        run: |
+          if [ -z "${GITLAB_TOKEN}" ]; then
+            echo "GITLAB_TOKEN is required"
+            exit 1
+          fi
+          bash scripts/sync-from-gitlab.sh
       - name: Write summary
         if: always()
         env:
