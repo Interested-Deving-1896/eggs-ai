@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #
-# Syncs the three pieroproietti GitLab forks from their GitHub upstreams.
+# Syncs the three Interested-Deving-1896 GitLab forks from their GitHub upstreams.
 # Mirrors all branches, tags, and creates GitLab Releases for any new tags.
 #
 # Repos synced:
-#   github.com/pieroproietti/penguins-eggs      → openos-project/penguins-eggs_deving/penguins-eggs
-#   github.com/pieroproietti/penguins-eggs-book → openos-project/penguins-eggs_deving/penguins-eggs-book
-#   github.com/pieroproietti/oa-tools           → openos-project/penguins-eggs_deving/oa-tools
+#   github.com/Interested-Deving-1896/penguins-eggs      → openos-project/penguins-eggs_deving/penguins-eggs
+#   github.com/Interested-Deving-1896/penguins-eggs-book → openos-project/penguins-eggs_deving/penguins-eggs-book
+#   github.com/Interested-Deving-1896/oa-tools           → openos-project/penguins-eggs_deving/oa-tools
 #
 # Required CI variable:
 #   GITLAB_TOKEN — PAT with api + write_repository scope
@@ -31,8 +31,8 @@ warn()  { echo "[warn] $*" >&2; }
 # Active docs live in penguins-eggs/docs/ instead.
 # Note: oa-tools main is a clean upstream mirror; CI lives on openos/ci branch.
 REPOS=(
-  "pieroproietti/penguins-eggs|81413430|master develop"
-  "pieroproietti/oa-tools|81412997|main devel"
+  "Interested-Deving-1896/penguins-eggs|81413430|master develop"
+  "Interested-Deving-1896/oa-tools|81412997|main devel"
 )
 
 SYNCED=0
