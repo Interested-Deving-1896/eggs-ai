@@ -1,4 +1,4 @@
-name: Sync pieroproietti Forks
+name: Sync Interested-Deving-1896 Forks
 
 on:
   schedule:
@@ -19,7 +19,7 @@ on:
       upstream_user:
         description: "Upstream GitHub user to sync from"
         required: false
-        default: "pieroproietti"
+        default: "Interested-Deving-1896"
         type: string
 
 permissions:
@@ -35,14 +35,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Sync pieroproietti forks
+      - name: Sync Interested-Deving-1896 forks
         env:
           GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
           GITHUB_OWNER: ${{ github.repository_owner }}
-          UPSTREAM_USER: ${{ inputs.upstream_user || 'pieroproietti' }}
+          UPSTREAM_USER: ${{ inputs.upstream_user || 'Interested-Deving-1896' }}
           REPO_FILTER: ${{ inputs.repo_filter || '' }}
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
-        run: bash scripts/sync-pieroproietti-forks.sh
+        run: bash scripts/sync-Interested-Deving-1896-forks.sh
       - name: Write summary
         if: always()
         env:
