@@ -1,15 +1,5 @@
 name: Rate-Limit Re-trigger
 
-# Scans recently-failed workflow runs, identifies those that failed due to
-# rate limiting, and re-triggers them after their reset epoch.
-#
-# Loop guard: runs that were themselves triggered by this workflow carry
-# RATE_LIMIT_RERUN=true in their environment. The scanner skips those runs
-# so a second rate-limit failure never causes a third attempt.
-#
-# Schedule: every 30 minutes — short enough to catch a reset within the hour,
-# long enough not to waste API quota on scans when nothing is failing.
-
 on:
   schedule:
     - cron: '*/30 * * * *'
@@ -33,16 +23,16 @@ on:
 
 concurrency:
   group: rate-limit-rerun
-  cancel-in-progress: false   # Never cancel mid-sleep — we'd miss the re-trigger window
+  cancel-in-progress: false
 
 permissions:
-  actions: write   # needed for rerun-failed-jobs API
+  actions: write
   contents: read
 
 jobs:
   scan-and-rerun:
     runs-on: ubuntu-latest
-    timeout-minutes: 120   # must cover the longest possible rate-limit reset window (1h) + buffer
+    timeout-minutes: 120
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -79,10 +69,9 @@ jobs:
           MANIFEST_FILE: ${{ steps.scan.outputs.manifest_file }}
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
           RESET_BUFFER_SEC: ${{ inputs.reset_buffer_sec || '60' }}
-          # Loop guard: this variable is visible in the re-triggered run's environment
-          # via the rerun API. The scanner checks for it and skips such runs.
           RATE_LIMIT_RERUN: "true"
-        run: bash scripts/rerun-after-rate-limit.sh
+        run: |
+          bash scripts/rerun-after-rate-limit.sh "${{ steps.scan.outputs.manifest_file }}" "${{ inputs.dry_run || 'false' }}" "${{ inputs.reset_buffer_sec || '60' }}"
 
       - name: No candidates
         if: steps.scan.outputs.candidate_count == '0'
