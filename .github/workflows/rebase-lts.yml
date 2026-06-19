@@ -1,9 +1,9 @@
 name: Rebuild LTS Branch (penguins-eggs)
 
 on:
-  # Run after the pieroproietti sync so master is already up to date
+  # Run after the Interested-Deving-1896 sync so master is already up to date
   workflow_run:
-    workflows: ["Sync pieroproietti Forks"]
+    workflows: ["Sync Interested-Deving-1896 Forks"]
     types: [completed]
   # Also allow manual trigger
   workflow_dispatch:
