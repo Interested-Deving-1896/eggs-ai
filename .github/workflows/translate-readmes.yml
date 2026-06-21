@@ -161,7 +161,7 @@ jobs:
           FSA_MANAGED: ${{ vars.FSA_MANAGED }}
           REPO_OWNER: ${{ github.repository_owner }}
         run: |
-          source scripts/includes/fsa-mode.sh
+          source ./scripts/includes/fsa-mode.sh
           if fsa_is_managed; then
             echo "managed=true" >> "$GITHUB_OUTPUT"
             # Managed: org-wide sweep across I-D-1896.
@@ -198,4 +198,3 @@ jobs:
           JOB_STATUS: ${{ job.status }}
           INPUTS_JSON: ${{ toJSON(inputs) }}
         run: bash scripts/write-summary.sh
-
