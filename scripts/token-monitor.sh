@@ -258,7 +258,7 @@ done
     done
     echo ""
     echo "Use the [Rotate Secret Token](https://github.com/${REPO}/actions/workflows/rotate-token.yml) workflow to update repo secrets."
-    echo "For OSP org secrets, update them at [OSP org secrets](https://github.com/organizations/OpenOS-Project-OSP/settings/secrets/actions)."
+    echo "For OSP org secrets, update them at [OSP org secrets](https://github.com/organizations/Interested-Deving-1896/settings/secrets/actions)."
   else
     echo "### ✅ All tokens healthy"
     echo ""
