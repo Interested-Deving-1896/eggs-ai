@@ -14,7 +14,7 @@
 # Required env vars:
 #   GH_TOKEN      — GitHub PAT with repo read scope
 #   GITLAB_TOKEN  — GitLab PAT with api + write_repository scope on openos-project
-#   OSP_ORG       — GitHub org to mirror from (OpenOS-Project-OSP)
+#   OSP_ORG       — GitHub org to mirror from (Interested-Deving-1896)
 
 set -uo pipefail
 
