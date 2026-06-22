@@ -4,7 +4,7 @@ name: Update READMEs
 # and refreshes repo descriptions + topics across Interested-Deving-1896.
 #
 # Priority tiers:
-#   1. Repos mirrored into OSP (fetched live from OpenOS-Project-OSP org)
+#   1. Repos mirrored into OSP (fetched live from Interested-Deving-1896 org)
 #   2. All remaining repos in Interested-Deving-1896 (full sweep only)
 #
 # Triggers:
