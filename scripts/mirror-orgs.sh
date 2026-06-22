@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Mirrors all repos from Interested-Deving-1896 to OpenOS-Project-OSP and
+# Mirrors all repos from Interested-Deving-1896 to Interested-Deving-1896 and
 # OpenOS-Project-Ecosystem-OOC using bare clone + push --mirror.
 #
 # This is the replacement for the absorbed org-mirror repo. It uses dynamic
