@@ -20,9 +20,9 @@
 # GitLab pass (third pass — requires GITLAB_TOKEN):
 #   For each repo on gitlab.com/openos-project/{subgroup}/{repo}, rewrites
 #   self-referential GitHub URLs to their GitLab equivalents:
-#     github.com/OpenOS-Project-OSP/{repo}            → gitlab.com/openos-project/{subgroup}/{repo}
+#     github.com/Interested-Deving-1896/{repo}            → gitlab.com/openos-project/{subgroup}/{repo}
 #     github.com/Interested-Deving-1896/{repo}        → gitlab.com/openos-project/{subgroup}/{repo}
-#     github.com/OpenOS-Project-Ecosystem-OOC/{repo}  → gitlab.com/openos-project/{subgroup}/{repo}
+#     github.com/Interested-Deving-1896/{repo}  → gitlab.com/openos-project/{subgroup}/{repo}
 #   Third-party github.com links (upstream projects) are left untouched.
 #   Subgroup map is loaded from config/gitlab-subgroups.yml (single source of truth).
 #   If GITLAB_TOKEN is absent the pass is skipped non-fatally.
@@ -541,7 +541,7 @@ fi  # end: [[ "$ORGS_FILTER" != "gitlab-only" ]]
 #
 # OSP content arrives on GitLab already clean of GitHub org refs (the passes
 # above run before mirror-osp-to-gitlab). However repos can accumulate
-# self-referential URLs that point to github.com/OpenOS-Project-OSP/... or
+# self-referential URLs that point to github.com/Interested-Deving-1896/... or
 # github.com/Interested-Deving-1896/... — clone instructions, README badges,
 # install scripts, CI status links. Those need rewriting to their
 # gitlab.com/openos-project/{subgroup}/{repo} equivalents.
@@ -782,7 +782,7 @@ for REPO in $OSP_REPOS; do
 
   echo "=== $REPO (GitLab: ${GL_NS_PATH}) ==="
 
-  # Rewrite github.com/OpenOS-Project-OSP/{repo} → gitlab.com/{subgroup}/{repo}
+  # Rewrite github.com/Interested-Deving-1896/{repo} → gitlab.com/{subgroup}/{repo}
   # Only rewrite self-references (this repo), not third-party GitHub links
   gl_search_and_patch "$GL_PROJECT_ID" \
     "github.com/${OSP_ORG}/${REPO}" \
@@ -797,7 +797,7 @@ for REPO in $OSP_REPOS; do
     "${GL_SELF_URL}" \
     "$GL_BRANCH"
 
-  # Rewrite github.com/OpenOS-Project-Ecosystem-OOC/{repo} → gitlab.com/{subgroup}/{repo}
+  # Rewrite github.com/Interested-Deving-1896/{repo} → gitlab.com/{subgroup}/{repo}
   gl_search_and_patch "$GL_PROJECT_ID" \
     "github.com/${OOC_ORG}/${REPO}" \
     "github.com/${OOC_ORG}/${REPO}" \
