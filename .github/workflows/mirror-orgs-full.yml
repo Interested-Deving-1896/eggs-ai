@@ -1,6 +1,6 @@
 name: Mirror Orgs
 
-# Mirrors all repos from Interested-Deving-1896 to OpenOS-Project-OSP and
+# Mirrors all repos from Interested-Deving-1896 to Interested-Deving-1896 and
 # OpenOS-Project-Ecosystem-OOC via bare clone + push --mirror.
 #
 # Replaces the absorbed org-mirror repository. Uses dynamic API discovery —
