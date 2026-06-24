@@ -1,0 +1,37 @@
+ci:
+  - changed-files:
+    - any-glob-to-any-file: '.github/workflows/**'
+    - any-glob-to-any-file: '.github/labeler.yml'
+    - any-glob-to-any-file: '.github/dependabot.yml'
+
+kernel:
+  - changed-files:
+    - any-glob-to-any-file: 'kernel/**'
+
+userspace:
+  - changed-files:
+    - any-glob-to-any-file: 'userspace/**'
+    - any-glob-to-any-file: 'include/**'
+
+integrations:
+  - changed-files:
+    - any-glob-to-any-file: 'integrations/**'
+
+scripts:
+  - changed-files:
+    - any-glob-to-any-file: 'scripts/**'
+
+config:
+  - changed-files:
+    - any-glob-to-any-file: 'config/**'
+    - any-glob-to-any-file: 'configs/**'
+
+tests:
+  - changed-files:
+    - any-glob-to-any-file: 'tests/**'
+
+docs:
+  - changed-files:
+    - any-glob-to-any-file: '*.md'
+    - any-glob-to-any-file: 'doc/**'
+    - any-glob-to-any-file: 'docs/**'
