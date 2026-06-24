@@ -1,0 +1,100 @@
+name: Deploy Book
+
+# Builds the mdBook documentation site from DOCS/ and deploys to GitHub Pages.
+#
+# Pages URL: https://interested-deving-1896.github.io/fork-sync-all/
+#
+# One-time setup required:
+#   Settings → Pages → Source → GitHub Actions
+#
+# mdBook is installed via cargo with a cached ~/.cargo to avoid rebuilding
+# on every run. Cache key includes the mdBook version so upgrades are picked
+# up automatically when the version pin changes.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'DOCS/**'
+      - 'book.toml'
+      - 'README.md'
+      - 'AGENTS.md'
+      - '.github/workflows/deploy-book.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-book
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+env:
+  MDBOOK_VERSION: "0.4.40"
+
+jobs:
+  build:
+    name: Build book
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Cache cargo
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cargo/bin/mdbook
+            ~/.cargo/.crates.toml
+            ~/.cargo/.crates2.json
+          key: mdbook-${{ env.MDBOOK_VERSION }}
+
+      - name: Install mdBook
+        run: |
+          if ! command -v mdbook &>/dev/null || [[ "$(mdbook --version)" != *"$MDBOOK_VERSION"* ]]; then
+            cargo install mdbook --version "$MDBOOK_VERSION" --locked
+          else
+            echo "mdbook $MDBOOK_VERSION already cached"
+          fi
+
+      - name: Stage root docs into DOCS/
+        run: |
+          cp README.md DOCS/README.md
+          cp AGENTS.md DOCS/AGENTS.md
+          # DOCS/workflow-triggers.md is committed and kept in sync by
+          # update-workflow-triggers-doc.yml — no copy needed here.
+
+      - name: Build
+        run: mdbook build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: book
+
+  deploy:
+    name: Deploy to Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            scripts/write-summary.sh
+          sparse-checkout-cone-mode: false
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5
+      - name: Write summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          INPUTS_JSON: ${{ toJSON(inputs) }}
+        run: bash scripts/write-summary.sh
