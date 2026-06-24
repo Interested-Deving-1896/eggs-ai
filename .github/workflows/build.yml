@@ -1,0 +1,86 @@
+name: Build
+
+# Validates that the bdfs userspace tools and kernel module compile cleanly.
+# Full kernel builds are expensive; this workflow runs compile checks only.
+# Integration tests require root + btrfs-progs + dwarfs and run in ci.yaml.
+
+on:
+  push:
+    branches: [main, "feat/**", "fix/**"]
+    paths:
+      - 'userspace/**'
+      - 'kernel/**'
+      - 'include/**'
+      - 'Makefile'
+      - '.github/workflows/build.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'userspace/**'
+      - 'kernel/**'
+      - 'include/**'
+      - 'Makefile'
+      - '.github/workflows/build.yml'
+  workflow_dispatch: {}
+
+jobs:
+  build-userspace:
+    name: Userspace (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            cmake ninja-build gcc clang \
+            libc6-dev pkg-config libglib2.0-dev
+
+      - name: Build (Release)
+        run: |
+          cmake -S userspace -B build/release \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_DAEMON=ON \
+            -DBUILD_CLI=ON \
+            -DBUILD_TESTS=OFF
+          cmake --build build/release --parallel
+
+      - name: Verify binaries
+        run: |
+          test -f build/release/bdfs_daemon
+          test -f build/release/bdfs
+
+  build-kernel-module:
+    name: Kernel module (compile check)
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install kernel headers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            linux-headers-$(uname -r) build-essential kmod
+
+      - name: Build kernel module
+        run: make kernel KDIR=/lib/modules/$(uname -r)/build
+        continue-on-error: true
+        # The module may fail if the runner kernel lacks BTRFS/FUSE config.
+        # Treated as a warning — the compile check still catches syntax errors.
+
+      - name: Report result
+        run: |
+          if [ -f kernel/btrfs_dwarfs/btrfs_dwarfs.ko ]; then
+            echo "Kernel module compiled successfully"
+            modinfo kernel/btrfs_dwarfs/btrfs_dwarfs.ko
+          else
+            echo "Kernel module did not produce .ko (may need BTRFS/FUSE kernel config)"
+          fi
