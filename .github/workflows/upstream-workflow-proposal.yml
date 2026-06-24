@@ -1,0 +1,67 @@
+name: Upstream Workflow Proposal
+
+# Detects new workflow files added to OSP-bound repos under Interested-Deving-1896,
+# strips project-specific data (hardcoded org names, repo names, secrets, cron
+# schedules), and opens a PR to fork-sync-all proposing the sanitised workflow
+# as a reusable template skeleton.
+#
+# Triggered manually or on a schedule. Only workflows that do not already exist
+# in fork-sync-all are proposed. Existing workflows are skipped silently.
+#
+# Requires:
+#   SYNC_TOKEN — PAT with repo scope (read source repos, write fork-sync-all PRs)
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # Weekly on Monday at 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      repo_filter:
+        description: "Repo name substring filter (blank = all OSP-bound repos)"
+        required: false
+        default: ""
+      dry_run:
+        description: "Detect new workflows without opening PRs"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# ── Rate limits ──────────────────────────────────────────────────────────────
+# GitHub REST API (SYNC_TOKEN): 5 000 req/hr primary limit.
+# One API call per repo to list workflow files; one per new workflow to fetch
+# content; one PR creation per new workflow. Well within hourly quota for the
+# typical OSP-bound repo count (~50 repos).
+
+jobs:
+  propose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Derive OSP-bound repo list from config
+        run: |
+          repos=$(python3 -c "
+import yaml
+data = yaml.safe_load(open('config/gitlab-subgroups.yml'))
+repos = []
+for sg in data.get('subgroups', {}).values():
+    repos.extend(sg.get('repos', []))
+print(' '.join(sorted(set(repos))))
+" 2>/dev/null || echo "")
+          echo "OSP_REPOS=${repos}" >> "$GITHUB_ENV"
+
+      - name: Propose new upstream workflows
+        env:
+          GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
+          SOURCE_OWNER: Interested-Deving-1896
+          TARGET_REPO: ${{ github.repository }}
+          REPO_FILTER: ${{ inputs.repo_filter || '' }}
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+        run: bash scripts/upstream-workflow-proposal.sh
