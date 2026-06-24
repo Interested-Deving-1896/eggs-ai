@@ -1,0 +1,246 @@
+# config/workflow-priority-tiers.yml
+#
+# Single source of truth for workflow priority tiers used by:
+#   - scripts/queue-manager.sh   (dedup + evict)
+#   - scripts/quota-reserve.sh   (reserve enforcement)
+#
+# Tiers:
+#   1  CRITICAL — never cancelled by queue-manager or quota-reserve
+#   2  HIGH     — cancelled only as last resort
+#   3  MEDIUM   — cancelled when quota is low (default for unknown workflows)
+#   4  LOW      — cancelled first
+#
+# When adding a new workflow, add it here. Both scripts read this file
+# at runtime via the load_tiers() helper — no script edits needed.
+
+tiers:
+  # ── Tier 1: CRITICAL ────────────────────────────────────────────────────────
+  # Security, quota management, and config validation.
+  # These must always be able to run regardless of queue or quota state.
+  - name: "Rotate Secret Token"
+    tier: 1
+  - name: "Queue Manager"
+    tier: 1
+  - name: "Quota Reserve"
+    tier: 1
+  - name: "Critical Deploy"
+    tier: 1
+  - name: "Critical Deploy — OSP"
+    tier: 1
+  - name: "Critical Deploy — OOC"
+    tier: 1
+  - name: "Critical Deploy — All"
+    tier: 1
+  - name: "Critical Deploy — Stub (TODO)"
+    tier: 1
+  - name: "GitLab Critical Deploy"
+    tier: 1
+  - name: "Cancel Stale Runs"
+    tier: 1
+  - name: "Cancel Runs After Token Rotation"
+    tier: 1
+  - name: "Validate Config"
+    tier: 1
+  - name: "Full Audit"
+    tier: 3
+  - name: "Onboard Repository"
+    tier: 3
+  - name: "Devcontainer SDK"
+    tier: 3
+  - name: "Manage Subtrees"
+    tier: 4
+  - name: "Token Health Monitor"
+    tier: 1
+  - name: "Mirror Watchdog"
+    tier: 1
+  - name: "Rate-Limit Re-trigger"
+    tier: 1
+  - name: "Quota Monitor"
+    tier: 1
+  - name: "Pre-Flush Prep"
+    tier: 1
+
+  # ── Tier 2: HIGH ────────────────────────────────────────────────────────────
+  # Core mirror chain and sync operations.
+  # Cancelled only when quota is critically low and no tier-4 runs remain.
+  - name: "Mirror Interested-Deving-1896 → OSP"
+    tier: 2
+  - name: "Mirror OSP → GitLab"
+    tier: 2
+  - name: "Mirror to OpenOS-Project-Ecosystem-OOC"
+    tier: 2
+  - name: "Mirror Chain Dispatch"
+    tier: 2
+  - name: "Sync Registered Imports"
+    tier: 2
+  - name: "Sync All Forks"
+    tier: 2
+  - name: "Full Chain Flush"
+    tier: 2
+  - name: "Pre-Mirror CI Gate"
+    tier: 2
+  - name: "Sync to GitLab Variant"
+    tier: 2
+  - name: "Sync from GitLab"
+    tier: 2
+  - name: "Git Platform Sync"
+    tier: 2
+  - name: "Sync-in"
+    tier: 3
+  - name: "Rebase PRs"
+    tier: 2
+  - name: "Auto-merge PRs"
+    tier: 3
+  - name: "Import Repository"
+    tier: 2
+  - name: "Add Mirror Repo"
+    tier: 2
+  - name: "Merge Repos into Monorepo"
+    tier: 2
+
+  # ── Tier 3: MEDIUM ──────────────────────────────────────────────────────────
+  # README management, CI checks, and secondary maintenance.
+  # Default tier for workflows not listed here.
+  - name: "Create Missing READMEs"
+    tier: 3
+  - name: "Update READMEs"
+    tier: 3
+  - name: "Validate README Render"
+    tier: 3
+  - name: "Check Accessibility"
+    tier: 3
+  - name: "Inject Built-with-Ona Badges"
+    tier: 3
+  - name: "Manage Repo Settings"
+    tier: 3
+  - name: "Generate Repo Descriptions"
+    tier: 3
+  - name: "Check OSP-Bound CI Status"
+  - name: "Check OOC-Bound CI Status"
+    tier: 3
+  - name: "Reconcile Org References"
+    tier: 3
+  - name: "Sync btrfs-devel Branches"
+    tier: 3
+  - name: "Sync Interested-Deving-1896 Forks"
+    tier: 3
+  - name: "Resolve CI Failures"
+    tier: 3
+
+  - name: "Cleanup Stale Branches"
+    tier: 3
+  - name: "Cleanup Template Pollution"
+    tier: 3
+  - name: "Rebuild LTS Branch (penguins-eggs)"
+    tier: 3
+  - name: "Setup OSP Mirror Workflows"
+    tier: 3
+  - name: "Sync Registry Sources"
+    tier: 3
+  - name: "Sync Registry Backend"
+    tier: 3
+  - name: "Sync to GitLab"
+    tier: 3
+  - name: "Enforce Agnostic Vendor"
+    tier: 3
+  - name: "Sync UAA Vendor"
+    tier: 3
+  - name: "Sync Shell Tools Vendor"
+    tier: 3
+  - name: "Check Shell Tools CI"
+    tier: 3
+  - name: "Integrate Shell Tools"
+    tier: 4
+  - name: "Pipeline Telemetry"
+    tier: 3
+  - name: "Generate Book Pages"
+    tier: 3
+  - name: "Deploy Book"
+    tier: 3
+  - name: "Verify Mirror Integrity"
+    tier: 3
+  - name: "Verify Fork Integrity"
+    tier: 3
+  - name: "Post-Flush Verification"
+    tier: 3
+  - name: "Setup Dashboard Variables"
+    tier: 3
+  - name: "PR Automation"
+    tier: 3
+  - name: "Sync Template"
+    tier: 3
+  - name: "Sync Upstream Sources"
+    tier: 3
+  - name: "OTA Discover"
+    tier: 3
+  - name: "OTA Opt-In"
+    tier: 3
+  - name: "OTA Release"
+    tier: 3
+  - name: "OTA Self-Update"
+    tier: 3
+  - name: "Clone Org"
+    tier: 3
+  - name: "Fork KDE Neon Repos"
+    tier: 3
+  - name: "Docker → Incus Migration"
+    tier: 3
+
+  # ── Tier 4: LOW ─────────────────────────────────────────────────────────────
+  # Non-critical maintenance, translation, and reporting.
+  # Cancelled first when quota drops below reserve floor.
+  - name: "Translate READMEs"
+    tier: 4
+  - name: "Translate Docs"
+    tier: 4
+  - name: "LTS README Standardisation"
+    tier: 4
+  - name: "Generate OSP Dependency Graph"
+    tier: 4
+  - name: "Upstream Workflow Proposal"
+    tier: 4
+  - name: "Update Infrastructure Dependencies"
+    tier: 4
+  - name: "Update Workflow Triggers Doc"
+    tier: 4
+  - name: "Update Quota Cost Registry"
+    tier: 4
+  - name: "Notification Poller"
+    tier: 4
+  - name: "Mirror Artifacts"
+    tier: 4
+  - name: "Mirror Releases"
+    tier: 4
+  - name: "Mirror Orgs"
+    tier: 4
+  - name: "Upstream PRs from OSP + OOC"
+    tier: 4
+  - name: "Upstream Direct Commits from OSP + OOC"
+    tier: 4
+  - name: "Repo Manifest"
+    tier: 4
+  - name: "Check GitLab CI Sync"
+    tier: 4
+  - name: "README Wizard"
+    tier: 4
+  - name: "Setup GitLab CI Schedules"
+    tier: 4
+  - name: "GitLab Storage Scan"
+    tier: 4
+  - name: "List Chromium GitLab Repos"
+    tier: 4
+  - name: "Shallow Reclone Large GitLab Mirrors"
+    tier: 4
+  - name: "Trigger Artifact Mirror"
+    tier: 4
+  - name: "Sync penguins-eggs docs to penguins-eggs-book"
+    tier: 4
+  - name: "Rate Limit Status"
+    tier: 4
+  - name: "Generate NotebookLM Content"
+    tier: 4
+  - name: "Refresh NotebookLM Auth"
+    tier: 4
+
+# Default tier for workflows not listed above.
+default_tier: 3
