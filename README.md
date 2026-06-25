@@ -97,11 +97,10 @@ _Original project — no upstream fork._
 | File | Description |
 |---|---|
 | [.gitlab/merge_request_templates/Default.md](https://github.com/Interested-Deving-1896/eggs-ai/blob/main/.gitlab/merge_request_templates/Default.md) | GitLab MR template |
-| [config/gitlab-subgroups.yml](https://github.com/Interested-Deving-1896/eggs-ai/blob/main/config/gitlab-subgroups.yml) | GitLab subgroup map |
 <!-- AI:end:resources -->
 
 ## License
 
 <!-- AI:start:license -->
-[MIT](https://github.com/Interested-Deving-1896/eggs-ai/blob/main/LICENSE) © 2026 [Interested-Deving-1896](https://github.com/Interested-Deving-1896)
+<!-- License not detected — add a LICENSE file to this repo. -->
 <!-- AI:end:license -->
