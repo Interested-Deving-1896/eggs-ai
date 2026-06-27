@@ -132,7 +132,7 @@ jobs:
         run: |
           source scripts/includes/quota-instrument.sh
           qi_begin
-          bash ./scripts/translate-docs.sh
+          bash scripts/translate-docs.sh
           qi_end
 
       - name: Push translated files
