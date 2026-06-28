@@ -2,10 +2,6 @@ name: Mirror Interested-Deving-1896 → OSP
 
 on:
   schedule:
-    # Hourly at :00 — runs before the injected mirror-osp-to-ooc.yaml (:15)
-    # so the full chain completes within the same hour:
-    #   :00  this job   → pushes upstream content into OSP
-    #   :15  per-repo   → OSP repos push themselves into OOC
     - cron: '0 * * * *'
   workflow_dispatch:
     inputs:
@@ -26,16 +22,7 @@ on:
         type: boolean
 
 permissions:
-  contents: read
-
-# ── Rate limits ──────────────────────────────────────────────────────────────
-# GitHub REST API (SYNC_TOKEN): 5 000 req/hr primary limit.
-#   mirror-to-osp.sh retries HTTP 403/429 up to 3 times, sleeping until
-#   X-RateLimit-Reset before each retry.
-# git push: transient rejections retried up to 3 times with 5 s backoff.
-#   SYNC_TOKEN requires the `workflow` scope to push repos containing
-#   .github/workflows/ — a missing scope logs a clear error and skips that
-#   repo rather than retrying indefinitely.
+  contents: write  # Changed from read to write
 
 jobs:
   mirror:
