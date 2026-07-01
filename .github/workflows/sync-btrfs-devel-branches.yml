@@ -31,7 +31,7 @@ on:
         default: "Interested-Deving-1896/linux-merge"
 
 permissions:
-  contents: read
+  contents: write  # Changed from read to write to allow updates
 
 # ── Rate limits ──────────────────────────────────────────────────────────────
 # GitHub REST API (SYNC_TOKEN): 5 000 req/hr primary limit.
