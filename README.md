@@ -10,24 +10,36 @@ This project provides an AI-powered agent for the Penguins-Eggs tool, which is u
 ## Architecture
 
 <!-- AI:start:architecture -->
-The project consists of several key components organized into distinct directories. The AI agent is implemented in TypeScript and uses a modular architecture. The main entry point is `dist/index.js`, with additional binaries for specific tasks located in the `bin` directory. The `src` directory contains the TypeScript source code, including the core logic for diagnostics, ISO building, configuration generation, and Q&A. The `proto` directory stores protocol definitions for inter-component communication. Build outputs are stored in the `dist` directory. The `engine` module handles core AI functionalities, while `bridge` facilitates communication with external systems. The `sdk` and `providers` modules offer abstractions for interacting with external APIs and services. Scripts for development, testing, and deployment are defined in `package.json`. Workflow files in `.github/workflows` automate CI/CD processes.
+The project consists of several key components organized into distinct directories:
 
+1. **`src/`**: Contains the source code for the AI agent, including modules for diagnostics, ISO building, configuration generation, and knowledge-base Q&A.
+2. **`bin/`**: Includes executable scripts for running the AI agent (`eggs-ai.js`) and the multi-channel processing server (`eggs-ai-mcp`).
+3. **`dist/`**: Stores the compiled JavaScript files generated from TypeScript during the build process.
+4. **`proto/`**: Contains protocol buffer definitions for inter-process communication.
+5. **`test/`**: Includes unit and integration tests for validating functionality.
+6. **`examples/`**: Provides example configurations and usage scenarios.
+7. **`integrations/`**: Holds integration-specific scripts and configurations, such as GitLab-enhanced workflows.
+
+The components interact through modular exports defined in `package.json`. The AI engine (`dist/engine`) serves as the core logic, while the SDK (`dist/sdk`) provides an interface for external integrations. The `bridge` module (`dist/bridge`) facilitates communication with the Penguins-Eggs daemon. The `providers` module (`dist/providers`) handles external services like generative AI APIs.
+
+Directory structure:
 ```plaintext
 .
-├── bin/                     # Executable scripts
-├── dist/                    # Compiled output
-│   ├── bridge/              # Communication layer
-│   ├── engine/              # Core AI logic
-│   ├── providers/           # External service integrations
-│   └── sdk/                 # SDK for API interactions
-├── proto/                   # Protocol definitions
-├── src/                     # TypeScript source code
-├── test/                    # Unit and integration tests
-├── .github/workflows/       # CI/CD workflows
-├── Dockerfile               # Docker build configuration
-├── README.md                # Project documentation
-├── package.json             # Project metadata and scripts
-└── tsconfig.json            # TypeScript configuration
+├── bin
+│   ├── eggs-ai.js
+├── dist
+│   ├── bridge
+│   ├── engine
+│   ├── providers
+│   ├── sdk
+├── proto
+├── src
+├── test
+├── examples
+├── integrations
+├── package.json
+├── Makefile
+├── README.md
 ```
 <!-- AI:end:architecture -->
 
