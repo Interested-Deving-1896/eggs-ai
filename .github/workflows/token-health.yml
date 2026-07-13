@@ -28,6 +28,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Ensure token-monitor label exists
+        env:
+          GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
+        run: |
+          gh label create "token-monitor" --color "ff0000" --description "Token monitor alerts" || echo "Label already exists"
+
       - name: Check token health
         id: check
         env:
@@ -39,12 +45,6 @@ jobs:
         run: |
           bash scripts/token-monitor.sh && echo "needs_attention=false" >> "$GITHUB_OUTPUT" \
             || echo "needs_attention=true" >> "$GITHUB_OUTPUT"
-
-      - name: Ensure token-monitor label exists
-        env:
-          GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
-        run: |
-          gh label create "token-monitor" --color "ff0000" --description "Token monitor alerts" || echo "Label already exists"
 
       - name: Open or update alert issue
         if: steps.check.outputs.needs_attention == 'true'
