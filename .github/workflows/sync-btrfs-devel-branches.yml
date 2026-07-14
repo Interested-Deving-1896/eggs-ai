@@ -32,6 +32,7 @@ on:
 
 permissions:
   contents: write  # Changed from read to write to allow updates
+  pull-requests: write  # Added permission to allow updates to branches
 
 # ── Rate limits ──────────────────────────────────────────────────────────────
 # GitHub REST API (SYNC_TOKEN): 5 000 req/hr primary limit.
