@@ -101,7 +101,7 @@ This repository is a mirror. The upstream source is available at [eggs-ai](https
 ## Origins
 
 <!-- AI:start:origins -->
-_Original project — no upstream fork._
+_Original project — no upstream influences recorded._
 <!-- AI:end:origins -->
 
 ## Resources
@@ -109,8 +109,8 @@ _Original project — no upstream fork._
 <!-- AI:start:resources -->
 | File | Description |
 |---|---|
-| [.gitlab/merge_request_templates/Default.md](https://github.com/Interested-Deving-1896/eggs-ai/blob/main/.gitlab/merge_request_templates/Default.md) | GitLab MR template |
 | [config/gitlab-subgroups.yml](https://github.com/Interested-Deving-1896/eggs-ai/blob/main/config/gitlab-subgroups.yml) | GitLab subgroup map |
+| [.gitlab/merge_request_templates/Default.md](https://github.com/Interested-Deving-1896/eggs-ai/blob/main/.gitlab/merge_request_templates/Default.md) | GitLab MR template |
 <!-- AI:end:resources -->
 
 <!-- AI:start:accessibility -->
