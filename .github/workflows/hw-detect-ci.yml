@@ -56,7 +56,7 @@ jobs:
             qemu: true
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Set up QEMU (i386 / riscv64)
         if: ${{ matrix.qemu == true }}
@@ -119,7 +119,7 @@ jobs:
             qemu: true
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Set up QEMU (i386 / riscv64)
         if: ${{ matrix.qemu == true }}
