@@ -77,10 +77,10 @@ Secrets must be configured in the repository settings for workflows requiring th
 ## Mirror chain
 
 <!-- AI:start:mirror-chain -->
-This repo is maintained in [`Interested-Deving-1896/immutable-linux-framework`](https://github.com/Interested-Deving-1896/immutable-linux-framework) and mirrored through:
+This repo is maintained in [`Interested-Deving-1896/eggs-ai`](https://github.com/Interested-Deving-1896/eggs-ai) and mirrored through:
 
 ```
-Interested-Deving-1896/immutable-linux-framework  ──►  OpenOS-Project-OSP/immutable-linux-framework  ──►  OpenOS-Project-Ecosystem-OOC/immutable-linux-framework
+Interested-Deving-1896/eggs-ai  ──►  OpenOS-Project-OSP/eggs-ai  ──►  OpenOS-Project-Ecosystem-OOC/eggs-ai
 ```
 
 Changes flow downstream automatically via the hourly mirror chain in
@@ -91,7 +91,9 @@ Direct commits to OSP or OOC are detected and opened as PRs back to `Interested-
 ## Contributors
 
 <!-- AI:start:contributors -->
-[@Interested-Deving-1896](https://github.com/Interested-Deving-1896) - 518 commits
+| Contributor | Commits |
+|---|---|
+| [@Interested-Deving-1896](https://github.com/Interested-Deving-1896) | 526 |
 <!-- AI:end:contributors -->
 
 ## Origins
@@ -117,7 +119,7 @@ WCAG 2.1 AA HTML compliance, audio overview (espeak-ng), and Braille output (lib
 
 
 
-Run the [Check Accessibility](https://github.com/Interested-Deving-1896/immutable-linux-framework/actions/workflows/check-accessibility.yml)
+Run the [Check Accessibility](https://github.com/Interested-Deving-1896/eggs-ai/actions/workflows/check-accessibility.yml)
 workflow to generate the first report and accessibility artifacts.
 See the [W3C Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 for the underlying accessibility reference.
@@ -126,5 +128,5 @@ for the underlying accessibility reference.
 ## License
 
 <!-- AI:start:license -->
-[MIT](https://github.com/Interested-Deving-1896/immutable-linux-framework/blob/main/LICENSE) © 2026 [Interested-Deving-1896](https://github.com/Interested-Deving-1896)
+[MIT](https://github.com/Interested-Deving-1896/eggs-ai/blob/main/LICENSE) © 2026 [Interested-Deving-1896](https://github.com/Interested-Deving-1896)
 <!-- AI:end:license -->
