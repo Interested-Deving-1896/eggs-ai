@@ -20,7 +20,7 @@ name: Quota Reserve
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '2,32 * * * *'
   workflow_dispatch:
     inputs:
       reserve_floor:
@@ -41,7 +41,7 @@ on:
 
 concurrency:
   group: quota-reserve
-  cancel-in-progress: true   # Only the latest check matters
+  cancel-in-progress: true # Only the latest check matters
 
 permissions:
   actions: write
@@ -49,39 +49,36 @@ permissions:
 
 jobs:
   reserve:
+    if: >-
+      github.repository == 'Interested-Deving-1896/fork-sync-all' ||
+      vars.FSA_MANAGED != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # ratchet:step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          disable-sudo: false
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # ratchet:actions/checkout@v7
+        with:
+          sparse-checkout: |
+            scripts/quota-reserve.sh
+            scripts/write-summary.sh
+            scripts/includes/quota-snapshot.sh
+            scripts/includes/fsa-mode.sh
+            config/workflow-priority-tiers.yml
+          sparse-checkout-cone-mode: false
+
       - name: Check quota
         id: quota
         env:
           GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
           MIN_QUOTA: "50"
         run: |
-          remaining=$(curl -sf \
-            -H "Authorization: token ${GH_TOKEN}" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/rate_limit" \
-            | python3 -c "import sys,json; print(json.load(sys.stdin)['resources']['core']['remaining'])" \
-            || echo 0)
-          echo "remaining=${remaining}" >> "$GITHUB_OUTPUT"
-          echo "Quota: ${remaining} remaining"
-          if [[ "${remaining}" -lt "${MIN_QUOTA}" ]]; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "Quota critically low (${remaining} < ${MIN_QUOTA}) — skipping to avoid making things worse."
-          else
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          sparse-checkout: |
-            scripts/quota-reserve.sh
-            scripts/write-summary.sh
-            scripts/includes/fsa-mode.sh
-            config/workflow-priority-tiers.yml
-          sparse-checkout-cone-mode: false
+          source scripts/includes/quota-snapshot.sh
+          quota_snapshot
 
       - name: Check FSA mode
         id: fsa
@@ -91,15 +88,15 @@ jobs:
           REPO_OWNER: ${{ github.repository_owner }}
         run: |
           source scripts/includes/fsa-mode.sh
-          if fsa_is_managed; then
-            echo "managed=true" >> "$GITHUB_OUTPUT"
-            echo "Managed by fork-sync-all — quota reserve handled centrally, skipping."
+          if fsa_should_run_control_plane; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
           else
-            echo "managed=false" >> "$GITHUB_OUTPUT"
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Managed consumer — quota reserve handled centrally, skipping."
           fi
 
       - name: Enforce quota reserve
-        if: steps.quota.outputs.skip == 'false' && steps.fsa.outputs.managed == 'false'
+        if: steps.quota.outputs.skip == 'false' && steps.fsa.outputs.enabled == 'true'
         id: reserve
         env:
           GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
@@ -108,6 +105,9 @@ jobs:
           RESERVE_FLOOR: ${{ inputs.reserve_floor || '1000' }}
           GRACE_MIN: ${{ inputs.grace_min || '5' }}
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
+          # FLUSH_ACTIVE — set by flush-lifecycle.yml while the flush pipeline runs.
+          # When true, tier 2 (HIGH) runs are protected from cancellation.
+          FLUSH_ACTIVE: ${{ vars.FLUSH_ACTIVE || 'false' }}
         run: bash scripts/quota-reserve.sh
 
       - name: Write summary
